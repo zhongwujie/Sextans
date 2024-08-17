@@ -833,15 +833,15 @@ void black_hole_float_v16(tapa::istream<float_v16> & fifo_in) {
     }
 }
 
-void Sextans(tapa::mmap<int> edge_list_ptr,
+void Sextans(tapa::mmap<int> edge_list_ptr, // point Q
              
-             tapa::mmaps<ap_uint<512>, NUM_CH_SPARSE> edge_list_ch,
+             tapa::mmaps<ap_uint<512>, NUM_CH_SPARSE> edge_list_ch, // matrix A
              
              tapa::mmaps<float_v16, NUM_CH_B> mat_B_ch,
              
              tapa::mmaps<float_v16, NUM_CH_C> mat_C_ch_in,
              
-             tapa::mmaps<float_v16, NUM_CH_C> mat_C_ch,
+             tapa::mmaps<float_v16, NUM_CH_C> mat_C_ch, // C out
              
              const int NUM_ITE,
              const int NUM_A_LEN,
