@@ -40,8 +40,8 @@ void read_edge_list_ptr(const int num_ite,
                         const int M,
                         const int P_N, // bit 31 - 16: repeat time, bit 15 - 0: N
                         const int K,
-                        tapa::async_mmap<int> & edge_list_ptr,
-                        tapa::ostream<int> & fifo_edge_list_ptr,
+                        tapa::async_mmap<int> & edge_list_ptr, // the pointer list Q
+                        tapa::ostream<int> & fifo_edge_list_ptr, // The fifo to pass the pointer list
                         tapa::ostream<int> & PE_inst
                         ) {
     PE_inst.write(num_ite);
@@ -61,7 +61,7 @@ l_rp:
 #pragma HLS loop_flatten off
 #pragma HLS loop_tripcount min=1 max=16
     rd_ptr:
-        for (int i_req = 0, i_resp = 0; i_resp < num_ite_plus1;) {
+        for (int i_req = 0, i_resp = 0; i_resp < num_ite_plus1;) { // the length of the pointer list Q
 #pragma HLS loop_tripcount min=1 max=800
 #pragma HLS pipeline II=1
             async_read(edge_list_ptr,
@@ -72,6 +72,7 @@ l_rp:
     }
 }
 
+// read matrix A into FIFO A
 void read_A(tapa::async_mmap<ap_uint<512>> & A,
             tapa::ostream<ap_uint<512>> & fifo_A,
             const int A_len,
@@ -843,11 +844,11 @@ void Sextans(tapa::mmap<int> edge_list_ptr, // point Q
              
              tapa::mmaps<float_v16, NUM_CH_C> mat_C_ch, // C out
              
-             const int NUM_ITE,
+             const int NUM_ITE, // the length of the pointer list Q
              const int NUM_A_LEN,
              const int M,
              const int K,
-             const int P_N,
+             const int P_N, // reptition number and N
              const int alpha_u,
              const int beta_u
              ) {
