@@ -62,6 +62,7 @@ int cmp_by_column_row(const void *aa,
 }
 
 
+// This function sorts the rcv_arr. But the rcv is deleted?
 void sort_by_fn(int nnz_s,
                 vector<int> & cooRowIndex,
                 vector<int> & cooColIndex,
@@ -109,6 +110,7 @@ void mm_init_read(FILE * f,
     }
 }
 
+// fill the cooRowIndex, cooColIndex and cooVal
 void load_S_matrix(FILE * f_A,
                    int nnz_mmio,
                    int & nnz,
@@ -166,6 +168,8 @@ void load_S_matrix(FILE * f_A,
     nnz = idx;
 }
 
+
+// (If CSC) fill the row, col and val vector.
 void read_suitsparse_matrix(char * filename_A,
                             vector<int> & elePtr,
                             vector<int> & eleIndex,
@@ -364,7 +368,7 @@ void generate_edge_list_for_all_PEs(
             tmp_edge_list_pes[p].resize(0);
         }
         
-        //fill tmp_edge_lsit_pes
+        //fill tmp_edge_lsit_pes in turn
         for (int col =  WINDOE_SIZE * i; col < min(WINDOE_SIZE * (i + 1), NUM_COLUMN); ++col) {
             for (int j = CSCColPtr[col]; j < CSCColPtr[col+1]; ++j) {
                 int p = CSCRowIndex[j] % NUM_PE;
@@ -472,6 +476,7 @@ void edge_list_64bit(
     }
 }
 
+// Generate the CSR format according to the CSC format
 void CSC_2_CSR(int M,
                int K,
                int NNZ,

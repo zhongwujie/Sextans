@@ -271,6 +271,12 @@ int mm_read_banner(FILE *f, MM_typecode *matcode)
         storage_scheme) != 5)
         return MM_PREMATURE_EOF;
 
+    std::cout << "banner: " << banner << std::endl;
+    std::cout << "mtx: " << mtx << std::endl;
+    std::cout << "crd: " << crd << std::endl;
+    std::cout << "data_type: " << data_type << std::endl;
+    std::cout << "storage_scheme: " << storage_scheme << std::endl;
+
     for (p=mtx; *p!='\0'; *p=tolower(*p),p++);  /* convert to lower case */
     for (p=crd; *p!='\0'; *p=tolower(*p),p++);
     for (p=data_type; *p!='\0'; *p=tolower(*p),p++);
