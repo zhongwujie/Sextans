@@ -293,6 +293,7 @@ void cpu_spmm_CSR(const int M,
   }
 }
 
+// Generate edge_list, according to the tmp_edge_list
 void generate_edge_list_for_one_PE(
     const vector<edge> & tmp_edge_list,
     vector<edge> & edge_list,
@@ -345,7 +346,11 @@ void generate_edge_list_for_one_PE(
     }
 }
 
-
+/*
+ @brief: fill the edge_list_pes and edge_list_ptr
+ @param:
+  - edge_list_ptr: for the chunk offset
+*/
 void generate_edge_list_for_all_PEs(
     const vector<int> & CSCColPtr,
     const vector<int> & CSCRowIndex,
@@ -406,7 +411,11 @@ void generate_edge_list_for_all_PEs(
     
 }
 
-
+/*
+ @brief: fill the sparse_A_fpga_vec
+ @param:
+  - sparse_A_fpga_vec: the data of matrix A for a channel (8 PEs)
+*/ 
 void edge_list_64bit(
     const vector<vector<edge> > & edge_list_pes,
     const vector<int> & edge_list_ptr,

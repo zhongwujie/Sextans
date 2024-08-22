@@ -783,6 +783,7 @@ l_rp:
 }
 */
 
+// generate fifo_out from the fifo_in
 void Scatter_1_2(tapa::istream<ap_uint<512>> & fifo_in,
                  tapa::ostreams<ap_uint<256>, 2> & fifo_out) {
     for (;;) {
@@ -836,7 +837,7 @@ void black_hole_float_v16(tapa::istream<float_v16> & fifo_in) {
 
 void Sextans(tapa::mmap<int> edge_list_ptr, // point Q
              
-             tapa::mmaps<ap_uint<512>, NUM_CH_SPARSE> edge_list_ch, // matrix A
+             tapa::mmaps<ap_uint<512>, NUM_CH_SPARSE> edge_list_ch, // matrix A. Actually each channel is 64 bits.
              
              tapa::mmaps<float_v16, NUM_CH_B> mat_B_ch,
              
