@@ -13,7 +13,7 @@ constexpr int PEG_PER_A = 512 / 256;
 
 struct MultBVec {
     ap_uint<18> row;
-    float_v8 abvec;
+    float_v8 abvec; // The multiplication results of a PE
 };
 
 template <typename T, typename R>
@@ -295,6 +295,7 @@ void PEcore_Bmtx(ap_uint<14> addr_b,
     }
 }
 
+// perform A * B
 void PEG_Bmtx(tapa::istream<int> & PE_inst_in,
               tapa::istream<int> & fifo_inst_in,
               //tapa::istream<ap_uint<128>> & fifo_A,
@@ -460,6 +461,7 @@ void PEcore_Cmtx(ap_uint<18> addr_c,
     }
 }
 
+// Store the multiplication results to local_C, and send local_C to the mergers.
 void PEG_Cmtx(tapa::istream<int> & PE_inst_in,
               tapa::istream<int> & fifo_inst_in,
               tapa::istreams<MultBVec, 4> & fifo_aBvec,
@@ -934,7 +936,8 @@ void Sextans(tapa::mmap<int> edge_list_ptr, // point Q
                                                        fifo_aBvec,
                                                        fifo_C_pe
                                                        )
-    
+        
+        // a detached task runs independently from the parent task.
         .invoke<tapa::detach>(black_hole_int,
                               PE_inst)
         .invoke<tapa::detach>(black_hole_int,
